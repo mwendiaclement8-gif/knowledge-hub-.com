@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+/* --- 1. Base Styles & Reset --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f9;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* --- 2. Dashboard Grid for Desktop (Default) --- */
+.dashboard-grid {
+    display: grid;
+    /* 3 columns: Kiyosaki (wide), Investing, Real Estate */
+    grid-template-columns: 2fr 1fr 1fr; 
+    gap: 20px;
+    padding: 0 20px;
+    max-width: 1200px; /* Limit max width for large screens */
+    margin: 0 auto;
+}
+
+.topic-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 100%; /* Important for equal height in the grid */
+}
+
+/* Specific styling for the Kiyosaki card (made wider in the grid) */
+.kiyosaki {
+    grid-column: 1 / 2; /* Spans the first column on desktop */
+}
+
+/* --- 3. Video Embed Responsiveness --- */
+.video-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.video-title {
+    font-size: 0.9em;
+    font-style: italic;
+    margin-top: 5px;
+    color: #555;
+}
+
+/* Make iframes fill their container */
+.kiyosaki iframe {
+    width: 100%;
+    /* You can adjust height or set a fixed aspect ratio if needed */
+}
+
+/* --- 4. Mobile Responsiveness (The Solution) --- */
+@media (max-width: 768px) {
+    /* When screen width is 768px or less, switch to a single column layout */
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* All cards stack vertically */
+        padding: 0 10px;
+    }
+
+    .topic-card {
+        margin-bottom: 15px; /* Add space between stacked cards */
+    }
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<link rel="stylesheet" href="css/index.css">
+<script src="js/index.js"></script>
+<title>kiyosakis advice</title>
+
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Hub </title>
+<link rel="stylesheet" href="styles.css"> </head>
+<body>
+<header>
+<h1>Financial Knowledge Dashboard</h1>
+</header>
+
+<main class="dashboard-grid">
+
+<section class="topic-card kiyosaki">
+<h2>💰 Robert Kiyosaki's Principles</h2>
+<p>Core concepts from "Rich Dad Poor Dad" focusing on financial literacy, assets vs. liabilities, and the CASHFLOW Quadrant.</p>
+
+<div class="video-container">
+<iframe
+width="100%"
+height="315"
+src="https://www.youtube.com/embed/FqIQ81tmTKc"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen>
+</iframe>
+<p class="video-title">Why traditional advice about saving money is keeping you poor.</p>
+</div>
+
+<div class="video-container">
+<iframe
+width="100%"
+height="315"
+src="https://www.youtube.com/embed/3o02orovsw4"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen>
+</iframe>
+<p class="video-title">The Secret Strategy Banks Don't Want You to Know.</p>
+</div>
+
+<a href="#resources" class="card-link">Explore Rich Dad Resources</a>
+</section>
+
+<section class="topic-card investing">
+<h2>📈 Stock Market & Investing</h2>
+<p>Beginner guides to stocks, bonds, ETFs, and understanding risk tolerance.</p>
+<ul>
+<li>What is Diversification?</li>
+<li>How to read a Balance Sheet</li>
+<li>Long-term vs. Short-term Strategies</li>
+</ul>
+<a href="#investing" class="card-link">View Investing Guides</a>
+</section>
+
+<section class="topic-card real-estate">
+<h2>🏡 Real Estate Fundamentals</h2>
+<p>Learning about rental properties, REITs, and using leverage effectively.</p>
+<a href="#real-estate" class="card-link">Real Estate Deep Dive</a>
+</section>
+
+</main>
+</body>
+</html>
+
+</body>
+</html>
