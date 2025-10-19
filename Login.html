@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #eef1f5;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+margin: 0;
+}
+
+.login-container {
+background-color: white;
+padding: 30px;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+width: 100%;
+max-width: 380px; /* Max width for a typical login box */
+}
+
+h2 {
+text-align: center;
+color: #333;
+margin-bottom: 25px;
+}
+
+.input-group {
+margin-bottom: 15px;
+}
+
+label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+width: 100%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box; /* Important for padding not to exceed 100% width */
+}
+
+button {
+width: 100%;
+padding: 12px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+font-size: 16px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+button:hover {
+background-color: #0056b3;
+}
+
+/* Styling for messages */
+#message {
+text-align: center;
+margin-top: 15px;
+padding: 10px;
+border-radius: 4px;
+font-weight: bold;
+}
+.hidden {
+display: none;
+}
+.success {
+background-color: #d4edda;
+color: #155724;
+}
+.error {
+background-color: #f8d7da;
+color: #721c24;
+}
+
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/index.css">
+<script src="js/index.js"></script>
+<title>Login.html</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Login Form</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="login-container">
+<h2>User Login</h2>
+<form id="loginForm">
+<div class="input-group">
+<label for="username">Username</label>
+<input type="text" id="username" name="username" required>
+</div>
+<div class="input-group">
+<label for="password">Password</label>
+<input type="password" id="password" name="password" required>
+</div>
+<button><a href="Kiyosaki.html">log in</button>
+<p id="message" class="hidden"></p>
+</form>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    // 1. Prevent the default form submission (which reloads the page)
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const messageElement = document.getElementById('message');
+
+    // Reset message
+    messageElement.className = 'hidden';
+    messageElement.textContent = '';
+
+    // 2. Perform Frontend Validation (e.g., check for empty fields)
+    if (username === "" || password === "") {
+        messageElement.textContent = 'Please enter both username and password.';
+        messageElement.className = 'error';
+        return; // Stop execution
+    }
+
+    // 3. SECURE AUTHENTICATION (THIS SECTION MUST USE A BACKEND SERVER)
+    
+    /* *** WARNING: DO NOT USE HARDCODED CREDENTIALS OR CUSTOM ENCRYPTION IN PRODUCTION ***
+
+    In a real application, this is where you would use the Fetch API
+    to send the credentials over a secure HTTPS connection to your server
+    for verification against a securely hashed password database.
+
+    Example of what should happen:
+    fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle server response (success or failure)
+    });
+    */
+
+    // --- TEMPORARY DEMO (REPLACE WITH SERVER-SIDE LOGIC) ---
+    // Use a placeholder success state for demonstration
+    if (username === "new" && password === "wave") {
+        messageElement.textContent = 'Login Successful! Redirecting...';
+        messageElement.className = 'success';
+        : redirect to kiyosaki
+         window.location.href =kiyosaki.html; 
+    } else {
+        messageElement.textContent = 'Invalid username or password.';
+        messageElement.className = 'error';
+    }
+    // --- END TEMPORARY DEMO ---
+});
+</script>
+</body>
+</html>
+
+</body>
+</html>
