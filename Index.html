@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+/* --- Global Reset & Utilities --- */
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+margin: 0;
+padding-top: 130px; /* Adjust padding to make space for the fixed nav bars */
+background-color: #f0f2f5;
+color: #333;
+}
+
+.nav-container {
+max-width: 1300px;
+margin: 0 auto;
+padding: 0 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 100%;
+}
+
+/* --- Top Navigation Bar --- */
+.top-nav {
+background-color: #0056a0; /* Deep blue color from image */
+color: white;
+padding: 10px 0;
+position: fixed; /* Keeps the nav on top */
+top: 0;
+left: 0;
+right: 0;
+z-index: 1000;
+height: 50px; /* Fixed height for top bar */
+}
+
+.top-nav .logo {
+font-size: 1.5em;
+font-weight: bold;
+color: white;
+}
+
+.top-nav .search-bar {
+display: flex;
+align-items: center;
+background-color: white;
+border-radius: 4px;
+overflow: hidden;
+width: 400px;
+}
+
+.top-nav .search-bar input {
+flex-grow: 1;
+padding: 8px 15px;
+border: none;
+outline: none;
+font-size: 0.9em;
+color: #333;
+margin: 0; /* Override default input margin */
+}
+
+.top-nav .search-bar button {
+background-color: #f0f0f0;
+color: #333;
+border: none;
+padding: 8px 15px;
+cursor: pointer;
+font-size: 1em;
+transition: background-color 0.2s;
+}
+
+.top-nav .search-bar button:hover {
+background-color: #e0e0e0;
+}
+
+.top-nav .user-actions a {
+color: white;
+text-decoration: none;
+margin-left: 20px;
+padding: 8px 12px;
+border-radius: 4px;
+transition: background-color 0.2s;
+}
+
+.top-nav .user-actions a:hover {
+background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-nav .user-actions .signup-btn {
+background-color: #28a745; /* Green sign-up button */
+padding: 8px 15px;
+font-weight: bold;
+}
+
+.top-nav .user-actions .signup-btn:hover {
+background-color: #218838;
+}
+
+/* --- Secondary Navigation Bar --- */
+.secondary-nav {
+background-color: #fff;
+border-bottom: 1px solid #e0e0e0;
+padding: 10px 0;
+position: fixed; /* Keeps the nav on top */
+top: 55px; /* Position right below the top-nav */
+left: 0;
+right: 0;
+z-index: 999;
+}
+
+.secondary-nav .nav-container {
+justify-content: flex-start;
+gap: 25px;
+}
+
+.secondary-nav a {
+color: #333;
+text-decoration: none;
+font-size: 0.95em;
+padding: 5px 0;
+transition: color 0.2s;
+}
+
+.secondary-nav a:hover {
+color: #0056a0;
+}
+
+/* --- Hero Section (Banner) --- */
+.hero-section {
+max-width: 1300px;
+margin: 20px auto;
+display: flex;
+background: linear-gradient(to right, #0056a0 70%, #28a745 30%); /* Blue on left, Green on right */
+color: white;
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+min-height: 250px;
+}
+
+.hero-content {
+padding: 40px;
+flex: 2; /* Takes up more space on the left */
+}
+
+.hero-content h2 {
+font-size: 2.2em;
+margin-top: 0;
+margin-bottom: 10px;
+font-weight: 300;
+}
+
+.hero-content p {
+font-size: 1.1em;
+line-height: 1.6;
+}
+
+.hero-link {
+color: #b0e0ff;
+text-decoration: underline;
+}
+
+.hero-image {
+flex: 1; /* Takes up less space on the right */
+background-color: #28a745; /* Ensure the green background is dominant here */
+background-image: url('placeholder-graphic.png'); /* You'd replace this with a real image */
+background-size: cover;
+background-position: center;
+}
+
+/* Adjust the main content container to look good below the hero */
+.container {
+margin-top: 40px; /* Space between hero and content */
+}
+
+/* --- Retain existing content/chat styles below this --- */
+/* ... (Your existing styles for .container, .content-section, #chat-box, etc., should remain below the new styles) */
+
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge & Chat Hub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<nav class="top-nav">
+<div class="nav-container">
+<div class="logo">
+<i class="fas fa-book-open"></i> KnowledgeHub
+</div>
+
+<div class="search-bar">
+<input type="text" placeholder="Title, Topic, or Video Link">
+<button><i class="fas fa-search"></i></button>
+</div>
+
+<div class="user-actions">
+<a href="Login.html">Log In</a>
+<a href="#" class="signup-btn">Sign Up Today <i class="fas fa-pencil-alt"></i></a>
+</div>
+</div>
+</nav>
+
+<nav class="secondary-nav">
+<div class="nav-container">
+<a href="#">Is This For Me?</a>
+<a href="#">Get Started <i class="fas fa-caret-down"></i></a>
+<a href="#">Topics <i class="fas fa-caret-down"></i></a>
+<a href="#">Blog</a>
+<a href="#">Help Center</a>
+<a href="#">My Hub</a>
+</div>
+</nav>
+
+<div class="hero-section">
+<div class="hero-content">
+<h2>Lifelong Learning & Collaboration</h2>
+<p>we are a union ready to change life and take risks for a better future.We learn how to invest in our selves.
+All from kamuiru </p>
+<p><a href="#" class="hero-link">See all community resources.</a></p>
+</div>
+<div class="hero-image">
+</div>
+</div>
+
+<div class="container">
+<section class="content-section">
+<h2>Shared Resources</h2>
+<div id="content-list"></div>
+<hr>
+<h3>Add New Resource</h3>
+<form id="add-resource-form">
+<select id="resource-type">
+<option value="topic">Topic/Article</option>
+<option value="video">Video Link</option>
+<option value="book">Book Title</option>
+</select>
+<input type="text" id="resource-title" placeholder="Title/Link" required>
+<textarea id="resource-description" placeholder="Description (optional)"></textarea>
+<button type="submit">Add Resource</button>
+</form>
+</section>
+
+<section class="chat-section">
+<h2>Network Chat</h2>
+<div id="chat-box">
+<p class="system-message">This chat is currently client-side only. To talk across a network, you need a Backend with **WebSockets**.</p>
+</div>
+<div class="chat-input-area">
+<input type="text" id="chat-message-input" placeholder="Type your message..." required>
+<button onclick="sendMessage()">Send</button>
+</div>
+</section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
