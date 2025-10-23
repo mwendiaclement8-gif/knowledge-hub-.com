@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+/* --- Global Reset & Utilities --- */
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+margin: 0;
+padding-top: 130px; /* Adjust padding to make space for the fixed nav bars */
+background-color: #f0f2f5;
+color: #333;
+}
+
+.nav-container {
+max-width: 1300px;
+margin: 0 auto;
+padding: 0 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 100%;
+}
+
+/* --- Top Navigation Bar --- */
+.top-nav {
+background-color: #0056a0; /* Deep blue color from image */
+color: white;
+padding: 10px 0;
+position: fixed; /* Keeps the nav on top */
+top: 0;
+left: 0;
+right: 0;
+z-index: 1000;
+height: 50px; /* Fixed height for top bar */
+}
+
+.top-nav .logo {
+font-size: 1.5em;
+font-weight: bold;
+color: white;
+}
+
+.top-nav .search-bar {
+display: flex;
+align-items: center;
+background-color: white;
+border-radius: 4px;
+overflow: hidden;
+width: 400px;
+}
+
+.top-nav .search-bar input {
+flex-grow: 1;
+padding: 8px 15px;
+border: none;
+outline: none;
+font-size: 0.9em;
+color: #333;
+margin: 0; /* Override default input margin */
+}
+
+.top-nav .search-bar button {
+background-color: #f0f0f0;
+color: #333;
+border: none;
+padding: 8px 15px;
+cursor: pointer;
+font-size: 1em;
+transition: background-color 0.2s;
+}
+
+.top-nav .search-bar button:hover {
+background-color: #e0e0e0;
+}
+
+.top-nav .user-actions a {
+color: white;
+text-decoration: none;
+margin-left: 20px;
+padding: 8px 12px;
+border-radius: 4px;
+transition: background-color 0.2s;
+}
+
+.top-nav .user-actions a:hover {
+background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-nav .user-actions .signup-btn {
+background-color: #28a745; /* Green sign-up button */
+padding: 8px 15px;
+font-weight: bold;
+}
+
+.top-nav .user-actions .signup-btn:hover {
+background-color: #218838;
+}
+
+/* --- Secondary Navigation Bar --- */
+.secondary-nav {
+background-color: #fff;
+border-bottom: 1px solid #e0e0e0;
+padding: 10px 0;
+position: fixed; /* Keeps the nav on top */
+top: 55px; /* Position right below the top-nav */
+left: 0;
+right: 0;
+z-index: 999;
+}
+
+.secondary-nav .nav-container {
+justify-content: flex-start;
+gap: 25px;
+}
+
+.secondary-nav a {
+color: #333;
+text-decoration: none;
+font-size: 0.95em;
+padding: 5px 0;
+transition: color 0.2s;
+}
+
+.secondary-nav a:hover {
+color: #0056a0;
+}
+
+/* --- Hero Section (Banner) --- */
+.hero-section {
+max-width: 1300px;
+margin: 20px auto;
+display: flex;
+background: linear-gradient(to right, #0056a0 70%, #28a745 30%); /* Blue on left, Green on right */
+color: white;
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+min-height: 250px;
+}
+
+.hero-content {
+padding: 40px;
+flex: 2; /* Takes up more space on the left */
+}
+
+.hero-content h2 {
+font-size: 2.2em;
+margin-top: 0;
+margin-bottom: 10px;
+font-weight: 300;
+}
+
+.hero-content p {
+font-size: 1.1em;
+line-height: 1.6;
+}
+
+.hero-link {
+color: #b0e0ff;
+text-decoration: underline;
+}
+
+.hero-image {
+flex: 1; /* Takes up less space on the right */
+background-color: #28a745; /* Ensure the green background is dominant here */
+background-image: url('placeholder-graphic.png'); /* You'd replace this with a real image */
+background-size: cover;
+background-position: center;
+}
+
+/* Adjust the main content container to look good below the hero */
+.container {
+margin-top: 40px; /* Space between hero and content */
+}
+
+/* --- Retain existing content/chat styles below this --- */
+/* ... (Your existing styles for .container, .content-section, #chat-box, etc., should remain below the new styles) */
+/* General container and heading styles */
+.shop-by-category-section {
+padding: 40px 20px;
+text-align: center;
+background-color: #f8f8f8; /* Light background for the section */
+}
+
+.section-heading {
+font-size: 2em;
+margin-bottom: 30px;
+color: #333;
+}
+
+/* Flexbox for the category grid */
+.category-grid {
+display: flex;
+justify-content: center; /* Center the cards horizontally */
+gap: 20px; /* Space between the cards */
+flex-wrap: wrap; /* Allows wrapping on smaller screens */
+max-width: 1200px; /* Max width for the whole grid */
+margin: 0 auto;
+}
+
+/* Category Card Styling */
+.category-card {
+background-color: #fff;
+border-radius: 8px; /* Slightly rounded corners */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+overflow: hidden; /* Ensures image corners match card corners */
+text-align: center;
+padding-bottom: 20px; /* Space below the button */
+width: 280px; /* Fixed width for a standard card size */
+flex-grow: 0;
+flex-shrink: 0;
+}
+
+/* Image container and cropping */
+.category-image-wrapper {
+width: 100%;
+height: 180px; /* Set a fixed height for the image area */
+overflow: hidden;
+margin-bottom: 15px;
+}
+
+.category-image {
+width: 100%;
+height: 100%;
+object-fit: cover; /* Important: Ensures the image covers the area without distortion */
+display: block;
+}
+
+/* Title Styling */
+.category-title {
+font-size: 1.2em;
+color: #333;
+margin-bottom: 10px;
+}
+
+/* Button Styling (View Products) */
+.view-products-btn {
+display: inline-block;
+padding: 8px 20px;
+border: 2px solid #a63d55; /* Use a color similar to the one in the image (a deep rose/maroon) */
+color: #a63d55;
+background-color: transparent;
+text-decoration: none; /* Remove underline from the link */
+border-radius: 4px;
+font-weight: bold;
+transition: background-color 0.3s, color 0.3s;
+}
+
+.view-products-btn:hover {
+background-color: #a63d55;
+color: #fff;
+}
+
+/* Media Query for Responsiveness (Optional but recommended) */
+@media (max-width: 600px) {
+.category-card {
+width: 100%; /* Full width on small screens */
+max-width: 350px;
+}
+}
+
+
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=0">
+<title>Knowledge & Chat Hub</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<nav class="top-nav">
+<div class="nav-container">
+<div class="logo">
+<i class="fas fa-book-open"></i> KnowledgeHub
+</div>
+
+<div class="search-bar">
+<input type="text" placeholder="Title, Topic, or Video Link">
+<button><i class="fas fa-search"></i></button>
+</div>
+
+<div class="user-actions">
+<a href="test.html">Log In</a>
+<a href="#" class="signup-btn">Sign Up Today <i class="fas fa-pencil-alt"></i></a>
+</div>
+</div>
+</nav>
+
+<nav class="secondary-nav">
+<div class="nav-container">
+<a href="#">Is This For Me?</a>
+<a href="#">Get Started <i class="fas fa-caret-down"></i></a>
+<a href="#">Topics <i class="fas fa-caret-down"></i></a>
+<a href="#">Blog</a>
+<a href="#">Help Center</a>
+<a href="#">My Hub</a>
+</div>
+</nav>
+
+<div class="hero-section">
+<div class="hero-content">
+<h2>Lifelong Learning & Collaboration</h2>
+<p>we are a union ready to change life and take risks for a better future.We learn how to invest in our selves.
+All from kamuiru </p>
+<p><a href="#" class="hero-link">See all community resources.</a></p>
+</div>
+<div class="hero-image">
+</div>
+</div>
+
+<div class="container">
+<section class="content-section">
+<h2>Shared Resources</h2>
+<div id="content-list"></div>
+<section class="shop-by-category-section">
+<h2 class="section-heading">Shop by category</h2>
+<div class="category-grid">
+<div class="category-card">
+<div class="category-image-wrapper">
+<img src="placeholder-electronics.jpg" alt="Electronics" class="category-image">
+</div>
+<h3 class="category-title">Electronics</h3>
+<a href="#" class="view-products-btn">View Products</a>
+</div>
+
+<div class="category-card">
+<div class="category-image-wrapper">
+<img src="placeholder-fashion.jpg" alt="Fashion" class="category-image">
+</div>
+<h3 class="category-title">Fashion</h3>
+<a href="#" class="view-products-btn">View Products</a>
+</div>
+
+<div class="category-card">
+<div class="category-image-wrapper">
+<img src="placeholder-home-garden.jpg" alt="Home & Garden" class="category-image">
+</div>
+<h3 class="category-title">Home & Garden</h3>
+<a href="#" class="view-products-btn">View Products</a>
+</div>
+
+<div class="category-card">
+<div class="category-image-wrapper">
+<img src="placeholder-beauty.jpg" alt="Beauty" class="category-image">
+</div>
+<h3 class="category-title">Beauty</h3>
+<a href="#" class="view-products-btn">View Products</a>
+</div>
+</div>
+</section>
+
+
+<script src="script.js"></script>
+</body>
+</html>
