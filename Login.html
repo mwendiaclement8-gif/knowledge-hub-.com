@@ -1,177 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-body {
-font-family: Arial, sans-serif;
-background-color: #eef1f5;
-display: flex;
-justify-content: center;
-align-items: center;
-min-height: 100vh;
-margin: 0;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity Union Dashboard - Private Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS STYLES */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #28a745; /* Green */
+            --background-color: #f0f2f5; /* Light Gray */
+            --card-background: #ffffff; /* White */
+            --text-color: #343a40; /* Dark Gray */
+            --error-color: #dc3545;
+        }
 
-.login-container {
-background-color: white;
-padding: 30px;
-border-radius: 8px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-width: 100%;
-max-width: 380px; /* Max width for a typical login box */
-}
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        
+        /* ------------------ LOGIN STYLES ------------------ */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
 
-h2 {
-text-align: center;
-color: #333;
-margin-bottom: 25px;
-}
+        .login-box {
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
 
-.input-group {
-margin-bottom: 15px;
-}
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
 
-label {
-display: block;
-margin-bottom: 5px;
-font-weight: bold;
-color: #555;
-}
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
 
-input[type="text"],
-input[type="password"] {
-width: 100%;
-padding: 10px;
-border: 1px solid #ccc;
-border-radius: 4px;
-box-sizing: border-box; /* Important for padding not to exceed 100% width */
-}
+        .login-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-button {
-width: 100%;
-padding: 12px;
-background-color: #007bff;
-color: white;
-border: none;
-border-radius: 4px;
-font-size: 16px;
-cursor: pointer;
-transition: background-color 0.3s ease;
-}
+        #login-message {
+            margin-top: 15px;
+            color: var(--error-color);
+            font-weight: bold;
+            min-height: 20px;
+        }
 
-button:hover {
-background-color: #0056b3;
-}
+        /* ------------------ DASHBOARD STYLES ------------------ */
 
-/* Styling for messages */
-#message {
-text-align: center;
-margin-top: 15px;
-padding: 10px;
-border-radius: 4px;
-font-weight: bold;
-}
-.hidden {
-display: none;
-}
-.success {
-background-color: #d4edda;
-color: #155724;
-}
-.error {
-background-color: #f8d7da;
-color: #721c24;
-}
+        .dashboard-view {
+            display: none; /* Initially hidden until login success */
+        }
 
-</style>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/index.css">
-<script src="js/index.js"></script>
-<title>Login.html</title>
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        /* ------------------ FLOATING BUTTON & CHAT STYLES ------------------ */
+
+        #message-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            text-align: center;
+            line-height: 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .chat-modal {
+            display: none; 
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            height: 450px; /* Taller to fit new elements */
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .user-select-group {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
+        }
+
+        .user-select-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .user-select-group select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #e5ddd5; /* Whatsapp-like background */
+        }
+
+        .chat-message {
+            margin: 5px 0;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 85%;
+            word-wrap: break-word;
+            line-height: 1.4;
+            font-size: 0.9em;
+        }
+
+        .chat-message-sent {
+            background-color: #dcf8c6; /* Green for sent */
+            align-self: flex-end;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .chat-message-received {
+            background-color: #ffffff; /* White for received */
+            align-self: flex-start;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .chat-message strong {
+            display: block;
+            font-size: 0.8em;
+            color: #075e54;
+            margin-bottom: 3px;
+        }
+
+        .chat-footer {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+        }
+
+        .chat-footer input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+
+        .chat-footer button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Login Form</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<div class="login-container">
-<h2>User Login</h2>
-<form id="loginForm">
-<div class="input-group">
-<label for="username">Username</label>
-<input type="text" id="username" name="username" required>
-</div>
-<div class="input-group">
-<label for="password">Password</label>
-<input type="password" id="password" name="password" required>
-</div>
-<button><a href="Kiyosaki.html">log in</button>
-<p id="message" class="hidden"></p>
-</form>
-</div>
 
-<script>
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    // 1. Prevent the default form submission (which reloads the page)
-    event.preventDefault();
+    <div id="login-form-container" class="login-container">
+        <div class="login-box">
+            <h2>🔒 Union Member Login</h2>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">User ID (Username)</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Log In</button>
+            </form>
+            <p id="login-message"></p>
+        </div>
+    </div>
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const messageElement = document.getElementById('message');
 
-    // Reset message
-    messageElement.className = 'hidden';
-    messageElement.textContent = '';
+    <div id="dashboard-content" class="dashboard-view">
+        <div class="header">
+            <h1>🌟 The Unity Collective 🤝</h1>
+            <p>Welcome, <span id="welcome-user" style="font-weight: bold;">Member</span>! Your User ID is <span id="user-id-display"></span>.</p>
+        </div>
 
-    // 2. Perform Frontend Validation (e.g., check for empty fields)
-    if (username === "" || password === "") {
-        messageElement.textContent = 'Please enter both username and password.';
-        messageElement.className = 'error';
-        return; // Stop execution
-    }
+        <div class="container">
+            <div class="card">
+                <h3>🧠 Mindset & Vision</h3>
+                <p>Cultivating the mental framework for enduring success.</p>
+            </div>
+            <div class="card">
+                <h3>🛠️ High-Income Skills</h3>
+                <p>Developing skills the modern economy truly pays for.</p>
+            </div>
+            <div class="card">
+                <h3>💼 Practical Wealth Paths</h3>
+                <p>Strategies beyond the traditional employment route.</p>
+            </div>
+        </div>
 
-    // 3. SECURE AUTHENTICATION (THIS SECTION MUST USE A BACKEND SERVER)
-    
-    /* *** WARNING: DO NOT USE HARDCODED CREDENTIALS OR CUSTOM ENCRYPTION IN PRODUCTION ***
+        <button id="message-btn">
+            <i class="fas fa-comment"></i>
+        </button>
 
-    In a real application, this is where you would use the Fetch API
-    to send the credentials over a secure HTTPS connection to your server
-    for verification against a securely hashed password database.
+        <div id="chat-modal" class="chat-modal">
+            <div class="chat-header">
+                <span>Private Member Connect</span>
+                <button id="close-chat-btn">&times;</button>
+            </div>
+            
+            <div class="user-select-group">
+                <label for="recipient-select">Chat with User:</label>
+                <select id="recipient-select">
+                    </select>
+            </div>
 
-    Example of what should happen:
-    fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle server response (success or failure)
-    });
-    */
+            <div class="chat-body" id="chat-body">
+                <p style="text-align: center; color: gray;">Select a user above to begin a private chat.</p>
+            </div>
 
-    // --- TEMPORARY DEMO (REPLACE WITH SERVER-SIDE LOGIC) ---
-    // Use a placeholder success state for demonstration
-    if (username === "new" && password === "wave") {
-        messageElement.textContent = 'Login Successful! Redirecting...';
-        messageElement.className = 'success';
-        : redirect to kiyosaki
-         window.location.href =kiyosaki.html; 
-    } else {
-        messageElement.textContent = 'Invalid username or password.';
-        messageElement.className = 'error';
-    }
-    // --- END TEMPORARY DEMO ---
-});
-</script>
-</body>
-</html>
+            <div class="chat-footer">
+                <input type="text" placeholder="Type message..." id="chat-input">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginMessage = document.getElementById('login-message');
+            const loginContainer = document.getElementById('login-form-container');
+            const dashboardContent = document.getElementById('dashboard-content');
+            const welcomeUser = document.getElementById('welcome-user');
+            const userIdDisplay = document.getElementById('user-id-display');
+            const recipientSelect = document.getElementById('recipient-select');
+            
+            const messageBtn = document.getElementById('message-btn');
+            const chatModal = document.getElementById('chat-modal');
+            const closeChatBtn = document.getElementById('close-chat-btn');
+            const sendBtn = document.getElementById('send-btn');
+            const chatInput = document.getElementById('chat-input');
+            const chatBody = document.getElementById('chat-body');
+
+            // --- USER DATA AND STATE ---
+            let activeUserId = null;
+            
+            const users = {
+                // Username: Password
+                'richkid_01': 'moneyflow',
+                'success_guru': 'builditup',
+                'hustler_max': 'sidegig',
+                'investor_ali': 'compound',
+                'future_boss': 'freedom123',
+                'unity_member6': 'unionpass',
+                'growrich7': 'wealthpath',
+                'youngceo8': 'bigideas',
+                'lifeschool9': 'notboring',
+                'million_mind': 'focused'
+            };
+
+            // Simple storage for simulated private chats: {sender-recipient: [messages], recipient-sender: [messages]}
+            const chatHistory = {};
+
+
+            // --- LOGIN LOGIC ---
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                
+                if (users.hasOwnProperty(username) && users[username] === password) {
+                    loginMessage.textContent = 'Login Successful! Access Granted.';
+                    loginMessage.style.color = 'var(--secondary-color)';
+                    
+                    activeUserId = username; // Set the active User ID
+                    
+                    setTimeout(() => {
+                        loginContainer.style.display = 'none';
+                        dashboardContent.style.display = 'block';
+                        welcomeUser.textContent = username;
+                        userIdDisplay.textContent = username;
+                        
+                        populateRecipientSelect(username); // Populate chat list
+                        
+                        document.body.style.backgroundColor = 'var(--background-color)';
+                    }, 500);
+                    
+                } else {
+                    loginMessage.textContent = '❌ Invalid User ID or Password.';
+                    passwordInput.value = '';
+                }
+            });
+
+
+            // --- CHAT LOGIC ---
+
+            // Fills the dropdown with all other users
+            function populateRecipientSelect(currentUserId) {
+                recipientSelect.innerHTML = '<option value="">-- Select a Member --</option>';
+                const allUsernames = Object.keys(users);
+
+                allUsernames.forEach(user => {
+                    if (user !== currentUserId) {
+                        const option = document.createElement('option');
+                        option.value = user;
+                        option.textContent = user;
+                        recipientSelect.appendChild(option);
+                    }
+                });
+            }
+            
+            // Displays messages for the currently selected chat partner
+            function loadChatHistory(recipientId) {
+                chatBody.innerHTML = '';
+                if (!recipientId) return;
+
+                const key1 = `${activeUserId}-${recipientId}`;
+                const key2 = `${recipientId}-${activeUserId}`;
+                
+                // Get messages sent by current user OR received from recipient
+                const messages1 = chatHistory[key1] || [];
+                const messages2 = chatHistory[key2] || [];
+
+                // Combine and display messages
+                [...messages1, ...messages2]
+                    .sort((a, b) => a.timestamp - b.timestamp) // Sort by time (simulated)
+                    .forEach(msg => displayMessage(msg.sender, msg.text));
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            // Appends a new message to the chat body
+            function displayMessage(sender, text) {
+                const isSent = sender === activeUserId;
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('chat-message');
+                messageDiv.classList.add(isSent ? 'chat-message-sent' : 'chat-message-received');
+                
+                messageDiv.innerHTML = `
+                    <strong>${sender}</strong>
+                    ${text}
+                `;
+                
+                chatBody.appendChild(messageDiv);
+            }
+
+            // Handles sending a new message
+            function sendMessage() {
+                const recipientId = recipientSelect.value;
+                const messageText = chatInput.value.trim();
+                
+                if (!recipientId) {
+                    alert("Please select a user to message.");
+                    return;
+                }
+                
+                if (messageText !== "") {
+                    // 1. Create message object
+                    const message = {
+                        sender: activeUserId,
+                        recipient: recipientId,
+                        text: messageText,
+                        timestamp: Date.now()
+                    };
+                    
+                    // 2. Store message (using sender-recipient key)
+                    const key = `${activeUserId}-${recipientId}`;
+                    chatHistory[key] = chatHistory[key] || [];
+                    chatHistory[key].push(message);
+
+                    // 3. Display the message
+                    displayMessage(activeUserId, messageText);
+                    chatBody.scrollTop = chatBody.scrollHeight;
+
+                    // 4. Clear input
+                    chatInput.value = '';
+                }
+            }
+
+
+            // --- EVENT LISTENERS ---
+            
+            // Toggle chat modal visibility
+            messageBtn.addEventListener('click', () => {
+                const isHidden = chatModal.style.display === 'none' || chatModal.style.display === '';
+                chatModal.style.display = isHidden ? 'flex' : 'none';
+                loadChatHistory(recipientSelect.value); // Load history when opening
+            });
+
+            // Close chat modal
+            closeChatBtn.addEventListener('click', () => {
+                chatModal.style.display = 'none';
+            });
+            
+            // Send message button click
+            sendBtn.addEventListener('click', sendMessage);
+
+            // Send message on Enter key press
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Load new chat history when recipient changes
+            recipientSelect.addEventListener('change', (e) => {
+                loadChatHistory(e.target.value);
+            });
+            
+        });
+    </script>
 </body>
 </html>
